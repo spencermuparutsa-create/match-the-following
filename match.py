@@ -55,6 +55,10 @@ endpos = None
 startrect = None
 endrect = None
 
+score = 0
+scoretext = font.render("Score: "+ str(score), True, "black")
+screen.blit(scoretext,(2,2))
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -80,5 +84,21 @@ while True:
                     break
             if released_on_valid_area == True and clicked_on_valid_area == True:
                 pygame.draw.circle(screen,"black",endpos,4)
-
+            if released_on_valid_area == True and clicked_on_valid_area == True:
+                correct = False
+                for img_rect,text_rect in matches:
+                    if img_rect == startrect and text_rect == endrect:
+                        correct = True
+                        pygame.draw.line(screen,"green",startpos,endpos,3)
+                        pygame.display.update()
+                        score += 1
+                        pygame.draw.rect(screen,"white",(2,4,150,50),0)
+                        scoretext = font.render("Score: "+ str(score), True, "black")
+                        screen.blit(scoretext,(2,2))
+            if correct == False:
+                pygame.draw.line(screen,"red",startpos,endpos,3)
+                score -= 1
+                pygame.draw.rect(screen,"white",(2,4,150,50),0)
+                scoretext = font.render("Score: "+ str(score), True, "black")
+                screen.blit(scoretext,(2,2))
     pygame.display.update()
